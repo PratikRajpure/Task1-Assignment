@@ -1,0 +1,81 @@
+package com.gameTable;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
+public class TableCreation {
+
+	public  Connection getDataBaseConnection(){
+		String url = "jdbc:mysql://localhost:3306/GameData";
+		String userName = "root";
+		String password = "java@98";
+		String driverClassPath = "com.mysql.jdbc.Driver";
+
+			Connection con = null;
+			try {
+				Class.forName(driverClassPath);
+				con = DriverManager.getConnection(url, userName, password);
+			} catch (Exception e) {
+				System.out.println(e.getMessage());
+			}
+			return con;
+	}
+	
+	public  void createtTableForHeaderOne(HeaderOneElements hoe, Connection con) throws SQLException{
+		
+		PreparedStatement stmt ;
+		
+		String Querry = "insert into table_header_one (VLT_ID,CreationDateTime, LogSequence, DeviceID, TransactionID, GameTime, playState, playResult, Denom, Initial_wager, Final_wager, InitialWin, SecondaryPlayed, Secondary_wager, SecondaryWin, FinalWin, paytableId, ThemeId, InitialStartTime, InitialPlayerCashableAmount, InitialPlayerNonCashableAmount, InitialPlayerPromoAmount, playerCashableAmount, playerNonCashableAmoun,	playerPromoAmount, PlayerSessionID, PlayerID) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		stmt = con.prepareStatement(Querry);
+		stmt.setString(1, hoe.getVLT_ID());
+		stmt.setString(2, hoe.getCreationDateTime());
+		stmt.setString(3, hoe.getLogSequence());
+		stmt.setString(4, hoe.getDeviceID());
+		stmt.setString(5, hoe.getTransactionID());
+		stmt.setString(6, hoe.getGameTime());
+		stmt.setString(7, hoe.getPlayState());
+		stmt.setString(8, hoe.getPlayResult());
+		stmt.setString(9, hoe.getDenom());
+		stmt.setString(10, hoe.getInitial_wager());
+		stmt.setString(11, hoe.getFinal_wager());
+		stmt.setString(12, hoe.getInitialWin());
+		stmt.setString(13, hoe.getSecondaryPlayed());
+		
+		stmt.executeUpdate();
+	}
+	
+	public  void createtTableForHeaderTwo(HeaderTwoElements hte, Connection con) throws SQLException{
+		PreparedStatement stmt ;
+		
+		String Querry = "insert into table_header_two (winLevelIndex, winLevelCombo, progressiveAllowed ) values (?,?,?)";
+		stmt = con.prepareStatement(Querry);
+		stmt.setString(1, hte.getWinLevelIndex());
+		stmt.setString(2,hte.getWinLevelCombo());
+		stmt.setString(3, hte.getProgressiveAllowed());
+
+		stmt.executeUpdate();
+	}
+	
+	
+	public  void TableCreationHeaderElements(HeaderElements hfe, Connection con)throws SQLException{
+		
+		PreparedStatement stmt ;
+		
+		String Querry = "insert into table_header_five ( VLTID, CreationDateTime, DeviceID, transactionID, validationID, voucherSequenc, voucherAmt, transferDateTime, insideheaderfivefile) values (?,?,?,?,?,?,?,?,?)";
+		stmt = con.prepareStatement(Querry);
+		stmt.setString(1, hfe.getVLTID());
+		stmt.setString(2, hfe.getCreationDateTime());
+		stmt.setString(3, hfe.getDeviceID());
+		stmt.setString(4, hfe.getTransactionID());
+		stmt.setString(5, hfe.getValidationID());
+		stmt.setString(6, hfe.getVoucherSequenc());
+		stmt.setString(7, hfe.getVoucherAmt());
+		stmt.setString(8, hfe.getTransferDateTime());
+		stmt.setString(9, hfe.getInsideheaderfivefile());
+
+		stmt.executeUpdate();
+	}
+	
+}

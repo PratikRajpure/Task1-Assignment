@@ -1,0 +1,75 @@
+package com.gameTable;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+
+import com.mysql.jdbc.Connection;
+public class DataReading {
+
+	public void readFile() throws Exception {
+		char[] dataIn = new char[8000];
+		String pathname = "C:\\GAMEsofware\\Program 1\\Gamedataview\\Task1\\gamefilesmall.csv";
+		File file = new File(pathname);
+		FileReader fileReader = new FileReader(file);
+		BufferedReader reader = new BufferedReader(fileReader);
+		reader.read(dataIn);
+		reader.close();
+
+		String stringFile = String.valueOf(dataIn);
+
+		separateValue(stringFile);
+
+	}
+
+	public static void separateValue(String stringFile) throws Exception {
+
+		String[] fileByLine = stringFile.split("\\n");
+
+		for (int i = 5; i < fileByLine.length; i++) {
+			createHeaders(fileByLine[i]);
+		}
+
+	}
+
+	public static void createHeaders(String headString) throws Exception {
+		TableCreation ct = new TableCreation();
+		Connection con = (Connection) ct.getDataBaseConnection();
+		if ((!headString.isEmpty())) {
+			String[] headElementArray = headString.split("\\|");
+			System.out.println("zeroth element " + headElementArray[0]);
+			char[] c = new char[headString.length()];
+			c = headString.toCharArray();
+
+			int i = c[0];
+
+			if ((i == 49) && (!headString.isEmpty())) {
+				System.out.println("inside check 1 mapping");
+
+				HeaderElements hEle = new HeaderElements();
+				hEle .setVLTID(headElementArray[1]);
+				hEle .setCreationDateTime(headElementArray[2]);
+				hEle .setDeviceID(headElementArray[3]);
+				hEle .setTransactionID(headElementArray[4]);
+				hEle .setValidationID(headElementArray[5]);
+				hEle .setVoucherSequenc(headElementArray[6]);
+				hEle .setVoucherAmt(headElementArray[7]);
+				hEle .setTransferDateTime(headElementArray[8]);
+
+				ct.TableCreationhEle , con);
+
+			}	
+			try {
+				new DataReading().readFile();
+				} catch (Exception e) {
+				
+				System.out.println(e.getMessage());
+			}
+			System.out.println("Done ... ");
+		
+
+			con.close();
+		}
+
+	}
+
+}
